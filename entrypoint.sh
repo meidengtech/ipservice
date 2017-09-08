@@ -1,5 +1,5 @@
 #!/bin/sh
 
-python run_download.py
+#python run_download.py
 
 exec "$@"

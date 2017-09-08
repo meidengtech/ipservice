@@ -1,7 +1,8 @@
 FROM python:3-alpine
 
 ADD requirements.txt /requirements.txt
-RUN sed -i "s|dl-cdn.alpinelinux.org|mirrors.tuna.tsinghua.edu.cn|g" /etc/apk/repositories && \
+RUN set -xe && \
+    #sed -i "s|dl-cdn.alpinelinux.org|mirrors.tuna.tsinghua.edu.cn|g" /etc/apk/repositories && \
     apk add -U tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone && \
     apk add -U -t xxbuild gcc musl-dev && \
@@ -18,6 +19,7 @@ ADD entrypoint.sh /entrypoint.sh
 
 EXPOSE 8080
 ENV IP_DATA_FILE /tmp/ip.dat
+RUN python run_download.py
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD gunicorn -w 4 -b :8080 wsgi:app -k eventlet
