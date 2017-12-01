@@ -9,3 +9,4 @@ Jinja2==2.9.6
 MarkupSafe==1.0
 qqwry-py3==1.0.8
 Werkzeug==0.12.2
+grpcio==1.7.0
