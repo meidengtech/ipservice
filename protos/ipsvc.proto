@@ -1,0 +1,27 @@
+syntax = "proto3";
+package ipsvc;
+
+service IPSVC {
+    rpc IPQuery (IPRequest) returns (IPReply) {
+    }
+    rpc IPSQuery (IPsRequest) returns (IPsReply) {
+    }
+}
+
+message IPRequest {
+    string ip = 1;
+}
+
+message IPReply {
+    string ip = 1;
+    string city = 2;
+    string loc = 3;
+}
+
+message IPsRequest {
+    repeated IPRequest ips = 1;
+}
+
+message IPsReply {
+    repeated IPReply ipr = 1;
+}
