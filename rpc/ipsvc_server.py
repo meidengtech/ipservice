@@ -1,7 +1,7 @@
 import sys
+import os.path
 
-sys.path.insert(0, ".")
-sys.path.insert(0, "../")
+sys.path.insert(0,  os.path.abspath("."))
 
 from concurrent import futures
 import time
@@ -32,6 +32,12 @@ class IPSvc(ipsvc_pb2_grpc.IPSVCServicer):
     def IPSQuery(self, request, context):
         ips = request.ips
         return ipsvc_pb2.IPsReply(ipr=[self.IPQuery(ip, context) for ip in ips])
+
+    def IPStreamQuery(self, request_iterator, context):
+        for req in request_iterator:
+            ip = req.ip
+            # print("streaming {}".format(ip))
+            yield ipsvc_pb2.IPReply(**query_one_ip(ip))
 
 
 def serve():
