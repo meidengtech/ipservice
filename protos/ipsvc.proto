@@ -6,6 +6,8 @@ service IPSVC {
     }
     rpc IPSQuery (IPsRequest) returns (IPsReply) {
     }
+    rpc IPStreamQuery(stream IPRequest) returns (stream IPReply) {
+    }
 }
 
 message IPRequest {
