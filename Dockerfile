@@ -5,7 +5,7 @@ RUN set -xe && \
     #sed -i "s|dl-cdn.alpinelinux.org|mirrors.tuna.tsinghua.edu.cn|g" /etc/apk/repositories && \
     apk add -U tzdata libc6-compat && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone && \
-    apk add -U -t xxbuild gcc musl-dev && \
+    apk add -U -t xxbuild gcc g++ musl-dev && \
     pip install -r /requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple && \
     apk del xxbuild && \
     rm -rf /var/cache/apk/*
