@@ -1,9 +1,9 @@
-FROM python:3-alpine
+FROM python:3-alpine3.7
 
 ADD requirements.txt /requirements.txt
 RUN set -xe && \
     #sed -i "s|dl-cdn.alpinelinux.org|mirrors.tuna.tsinghua.edu.cn|g" /etc/apk/repositories && \
-    apk add -U tzdata && \
+    apk add -U tzdata libc6-compat && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone && \
     apk add -U -t xxbuild gcc musl-dev && \
     pip install -r /requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple && \
