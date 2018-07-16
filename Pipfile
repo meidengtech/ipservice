@@ -1,0 +1,23 @@
+[[source]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+click = "*"
+enum-compat = "*"
+eventlet = "*"
+flask = "*"
+greenlet = "*"
+gunicorn = "*"
+itsdangerous = "*"
+"jinja2" = "*"
+markupsafe = "*"
+"qqwry-py3" = "*"
+werkzeug = "*"
+grpcio = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
