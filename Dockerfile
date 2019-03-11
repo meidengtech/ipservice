@@ -17,4 +17,4 @@ ENV IP_DATA_FILE /tmp/ip.dat
 RUN python run_download.py
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD gunicorn -w 4 -b :8080 wsgi:app -k eventlet
+CMD gunicorn -w 4 -b :8080 wsgi:app -k gevent
