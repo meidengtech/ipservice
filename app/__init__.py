@@ -1,19 +1,22 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, current_app
 from extra.czip import load_qqwry
 
-ipq = None
-app = Flask(__name__)
+
+def create_app():
+    app1 = Flask(__name__)
+    app1.ipq = load_qqwry()
+
+    @app1.route("/q", methods=["GET", "POST"])
+    def query():
+        ips = request.values.get("ips", "127.0.0.1")
+        res = [(ip, current_app.ipq.lookup(ip)) for ip in ips.split(",") if ip]
+        return jsonify(success=1, ret=dict(res))
+
+    @app1.errorhandler(404)
+    def page_not_found(e):
+        return jsonify(success=0, msg="page not found"), 404
+
+    return app1
 
 
-@app.before_first_request
-def app_first():
-    global ipq
-    if not ipq:
-        ipq = load_qqwry()
-
-
-@app.route("/q", methods=["GET", "POST"])
-def query():
-    ips = request.values.get("ips")
-    res = [(ip, ipq.lookup(ip)) for ip in ips.split(",")]
-    return jsonify(success=1, ret=dict(res))
+app = create_app()
