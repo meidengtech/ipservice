@@ -1,7 +1,10 @@
 import sys
 import os.path
+import argparse
+import logging
+import signal
 
-sys.path.insert(0,  os.path.abspath("."))
+sys.path.insert(0, os.path.abspath("."))
 
 from concurrent import futures
 import time
@@ -31,7 +34,8 @@ class IPSvc(ipsvc_pb2_grpc.IPSVCServicer):
 
     def IPSQuery(self, request, context):
         ips = request.ips
-        return ipsvc_pb2.IPsReply(ipr=[self.IPQuery(ip, context) for ip in ips])
+        return ipsvc_pb2.IPsReply(
+            ipr=[self.IPQuery(ip, context) for ip in ips])
 
     def IPStreamQuery(self, request_iterator, context):
         for req in request_iterator:
@@ -41,15 +45,35 @@ class IPSvc(ipsvc_pb2_grpc.IPSVCServicer):
 
 
 def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-b', '--bind', dest="bind", help='bind', default=":8000", type=str)
+    parser.add_argument(
+        '-w',
+        '--workers',
+        dest='worker_num',
+        help='worker numbers',
+        default=10,
+        type=int)
+    args = parser.parse_args()
+    server = grpc.server(
+        futures.ThreadPoolExecutor(max_workers=args.worker_num))
     ipsvc_pb2_grpc.add_IPSVCServicer_to_server(IPSvc(), server)
-    server.add_insecure_port('0.0.0.0:50051')
+    server.add_insecure_port(args.bind)
     server.start()
-    try:
-        while True:
-            time.sleep(_ONE_DAY_IN_SECONDS)
-    except KeyboardInterrupt:
-        server.stop(0)
+    logging.warn("service started at {}".format(args.bind))
+
+    def signal_term_handler(signal, frame):
+        logger.warn('got SIGTERM beg')
+        server.stop(_GRACE_STOP_SECONDS)
+        logger.warn('got SIGTERM end')
+        sys.exit(0)
+
+    signal.signal(signal.SIGTERM, signal_term_handler)
+    signal.signal(signal.SIGINT, signal_term_handler)
+
+    while True:
+        time.sleep(_ONE_DAY_IN_SECONDS)
 
 
 if __name__ == '__main__':
