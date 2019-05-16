@@ -14,6 +14,7 @@ from rpc import ipsvc_pb2
 from rpc import ipsvc_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
+_GRACE_STOP_SECONDS = 60
 ipq = load_qqwry()
 
 
@@ -64,9 +65,9 @@ def serve():
     logging.warn("service started at {}".format(args.bind))
 
     def signal_term_handler(signal, frame):
-        logger.warn('got SIGTERM beg')
+        logging.warn('got SIGTERM beg')
         server.stop(_GRACE_STOP_SECONDS)
-        logger.warn('got SIGTERM end')
+        logging.warn('got SIGTERM end')
         sys.exit(0)
 
     signal.signal(signal.SIGTERM, signal_term_handler)
