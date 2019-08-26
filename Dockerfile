@@ -1,4 +1,4 @@
-FROM python:3.6-slim
+FROM python:3.7-slim
 
 ADD requirements.txt /requirements.debian.txt
 RUN set -xe && \
