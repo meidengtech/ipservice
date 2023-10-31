@@ -9,17 +9,21 @@ sys.path.insert(0, os.path.abspath("."))
 from concurrent import futures
 import time
 import grpc
-from extra.czip import load_qqwry
+from extra.czip import loadXdb
 from rpc import ipsvc_pb2
 from rpc import ipsvc_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 _GRACE_STOP_SECONDS = 60
-ipq = load_qqwry()
+ipq = loadXdb()
+
+def ips_parser(s: str):
+    T = [x for x in s.split("|") if x!="0"]
+    return [" ".join(T[0:-1]),T[-1]]
 
 
 def query_one_ip(ip):
-    resp = ipq.lookup(ip) or ['', '']
+    resp = ips_parser(ipq.search(ip))
     city, loc = tuple(resp[:2])
 
     if loc.strip() == "CZ88.NET":

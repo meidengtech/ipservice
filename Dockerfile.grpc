@@ -6,16 +6,15 @@ RUN set -xe && \
     pip install --no-cache-dir -r /requirements.txt
 
 WORKDIR /code
+ADD https://github.com/lionsoul2014/ip2region/raw/master/data/ip2region.xdb /code/data/
 ADD app /code/app
 ADD extra /code/extra
-ADD run_download.py /code
+
 ADD wsgi.py /code
 ADD rpc /code/rpc
 ADD protos /code/protos
 ADD entrypoint.sh /entrypoint.sh
 RUN mkdir -p /data
-ENV IP_DATA_FILE /data/ip.dat
-RUN python run_download.py
 RUN python -m grpc_tools.protoc -I protos --python_out=. --grpc_python_out=. rpc/ipsvc.proto
 
 CMD sh -c "exec python -m rpc.ipsvc_server -b 0.0.0.0:8000"
