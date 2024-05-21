@@ -10,6 +10,7 @@ def create_app():
     app1 = Flask(__name__)
     app1.ipq = loadXdb()
 
+    @app1.route("/", methods=["GET", "POST"])
     @app1.route("/q", methods=["GET", "POST"])
     def query():
         ips = request.values.get("ips", "127.0.0.1")
