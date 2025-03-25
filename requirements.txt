@@ -8,7 +8,7 @@ grpcio-tools==1.64.0
 gunicorn==22.0.0
 importlib_metadata==7.1.0
 itsdangerous==2.2.0
-Jinja2==3.1.4
+Jinja2==3.1.6
 MarkupSafe==2.1.5
 packaging==24.0
 platformdirs==4.2.2
