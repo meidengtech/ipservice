@@ -52,7 +52,7 @@ class IPSvc(ipsvc_pb2_grpc.IPSVCServicer):
 def serve():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-b', '--bind', dest="bind", help='bind', default=":8000", type=str)
+        '-b', '--bind', dest="bind", help='bind', default="0.0.0.0:8000", type=str)
     parser.add_argument(
         '-w',
         '--workers',
@@ -66,12 +66,12 @@ def serve():
     ipsvc_pb2_grpc.add_IPSVCServicer_to_server(IPSvc(), server)
     server.add_insecure_port(args.bind)
     server.start()
-    logging.warn("service started at {}".format(args.bind))
+    logging.warning("service started at {}".format(args.bind))
 
     def signal_term_handler(signal, frame):
-        logging.warn('got SIGTERM beg')
+        logging.warning('got SIGTERM beg')
         server.stop(_GRACE_STOP_SECONDS)
-        logging.warn('got SIGTERM end')
+        logging.warning('got SIGTERM end')
         sys.exit(0)
 
     signal.signal(signal.SIGTERM, signal_term_handler)

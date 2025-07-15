@@ -1,9 +1,10 @@
-FROM python:3.12-slim
+FROM python:3.13-slim
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 ADD requirements.txt /requirements.debian.txt
 RUN set -xe && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone && \
-    pip install --no-cache-dir -r /requirements.debian.txt
+    uv pip install --system --no-cache-dir -r /requirements.debian.txt
 
 WORKDIR /code
 ADD https://github.com/lionsoul2014/ip2region/raw/master/data/ip2region.xdb /code/data/
