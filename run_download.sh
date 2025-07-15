@@ -7,6 +7,6 @@ cd $dir
 mkdir data
 pushd data
 
-curl -o https://github.com/lionsoul2014/ip2region/raw/master/data/ip2region.xdb
+curl -OL https://github.com/lionsoul2014/ip2region/raw/master/data/ip2region.xdb
 
 popd
