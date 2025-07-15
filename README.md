@@ -3,16 +3,16 @@
 ```
 # docker build -t ipservice .
 # docker run -d --name ipservice -p 8888:8080 ipservice
-# curl -v -X POST http://ip.goodtp.com/q --data "ips=202.114.0.242,202.114.5.36" | jq
+# curl -qs -X POST http://127.0.0.1:8888/q --data "ips=202.114.0.242,202.114.5.36" | jq
 {
   "ret": {
     "202.114.0.242": [
-      "湖北省武汉市",
-      "华中科技大学DNS服务器"
+      "中国 湖北省 武汉市",
+      "教育网"
     ],
     "202.114.5.36": [
-      "湖北省武汉市",
-      "华中科技大学"
+      "中国 湖北省 武汉市",
+      "教育网"
     ]
   },
   "success": 1
