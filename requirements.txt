@@ -31,12 +31,7 @@ packaging==25.0
     # via gunicorn
 protobuf==6.31.1
     # via grpcio-tools
-setuptools==80.9.0
-    # via
-    #   grpcio-tools
-    #   zope-event
-    #   zope-interface
-werkzeug==3.1.3
+werkzeug==3.1.4
     # via flask
 zope-event==5.1
     # via gevent
