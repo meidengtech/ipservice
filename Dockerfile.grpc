@@ -7,7 +7,7 @@ RUN set -xe && \
     uv pip install --system --no-cache-dir -r /requirements.txt
 
 WORKDIR /code
-ADD https://github.com/lionsoul2014/ip2region/raw/master/data/ip2region.xdb /code/data/
+ADD https://github.com/lionsoul2014/ip2region/raw/master/data/ip2region_v4.xdb /code/data/ip2region.xdb 
 ADD app /code/app
 ADD extra /code/extra
 
