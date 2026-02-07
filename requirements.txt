@@ -29,9 +29,7 @@ markupsafe==3.0.3
     #   werkzeug
 packaging==26.0
     # via gunicorn
-protobuf==6.33.4
-    # via grpcio-tools
-setuptools==80.10.2
+protobuf==6.33.5
     # via grpcio-tools
 typing-extensions==4.15.0
     # via grpcio
